@@ -1,0 +1,24 @@
+{
+  "note": "Expectations derived by hand by stepping gup.c/memory.c at 6b25e21 and the 19be0eaffa3a diff on paper, before running the explorer. 'written' is the page the GUP caller writes in a sequential run with an optional single zap after A's step k (0-based).",
+  "sequential": [
+    {"id": "pre-no-zap", "version": "6b25e21", "zap_after": null, "written": "C",
+     "why": "none -> cow fault C(r,dirty) -> follow NULL -> wp reuse, VM_FAULT_WRITE clears FOLL_WRITE -> follow returns C"},
+    {"id": "pre-zap-after-reuse", "version": "6b25e21", "zap_after": 3, "written": "P",
+     "why": "step 3 is the reuse fault; after the zap FOLL_WRITE is gone, so the read fault maps P and follow returns it"},
+    {"id": "pre-zap-early", "version": "6b25e21", "zap_after": 1, "written": "C",
+     "why": "zap after the first cow fault: FOLL_WRITE still set, so the next fault is another cow fault"},
+    {"id": "post-zap-after-reuse", "version": "19be0eaffa3a", "zap_after": 3, "written": "C",
+     "why": "FOLL_COW set but FOLL_WRITE kept; the next fault is a cow fault; can_follow_write_pte accepts the dirty C"},
+    {"id": "post-no-zap", "version": "19be0eaffa3a", "zap_after": null, "written": "C",
+     "why": "same path without the zap"}
+  ],
+  "explore": [
+    {"id": "pre-1zap", "version": "6b25e21", "zaps": 1, "vm_write": false, "populated": false, "violation": true},
+    {"id": "pre-populated", "version": "6b25e21", "zaps": 1, "vm_write": false, "populated": true, "violation": true},
+    {"id": "pre-vm-write", "version": "6b25e21", "zaps": 2, "vm_write": true, "populated": false, "violation": false,
+     "why": "faultin_page only drops FOLL_WRITE when !(vm_flags & VM_WRITE)"},
+    {"id": "pre-no-zap", "version": "6b25e21", "zaps": 0, "vm_write": false, "populated": false, "violation": false},
+    {"id": "post-1zap", "version": "19be0eaffa3a", "zaps": 1, "vm_write": false, "populated": false, "violation": false},
+    {"id": "post-3zaps-populated", "version": "19be0eaffa3a", "zaps": 3, "vm_write": false, "populated": true, "violation": false}
+  ]
+}

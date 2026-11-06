@@ -1,0 +1,19 @@
+## version=6b25e21 zaps=1 populated=False: wrote page-cache page P through a read-only private mapping
+  T0:follow flags=WRITE|FORCE pte=none
+  T0:fault flags=WRITE|FORCE pte=none
+  T0:follow flags=WRITE|FORCE pte=Crd
+  T0:fault flags=WRITE|FORCE pte=Crd
+  T1:madvise(DONTNEED) zap
+  T0:follow flags=FORCE pte=none
+  T0:fault flags=FORCE pte=none
+  T0:follow flags=FORCE pte=Prc
+  T0:write flags=FORCE pte=Prc
+## version=6b25e21 zaps=1 populated=True: wrote page-cache page P through a read-only private mapping
+  T0:follow flags=WRITE|FORCE pte=Prc
+  T0:fault flags=WRITE|FORCE pte=Prc
+  T1:madvise(DONTNEED) zap
+  T0:follow flags=FORCE pte=none
+  T0:fault flags=FORCE pte=none
+  T0:follow flags=FORCE pte=Prc
+  T0:write flags=FORCE pte=Prc
+## version=19be0eaffa3a zaps=1 populated=False: no violation
