@@ -14,9 +14,11 @@ abstractos de una página:
 - `C`, la copia anónima;
 - `none`.
 
-El explorador recorre todos los entrelazados de un llamador GUP
+El explorador recorre todos los entrelazados de los pasos del modelo entre un llamador GUP
 `FOLL_WRITE|FOLL_FORCE` contra k zaps. El invariante es que nunca se
 escribe P.
+
+**Alcance de la exploración.** El explorador enumera todos los entrelazados *de este programa finito del modelo* (sus pasos atómicos, cotas y elecciones). No dice nada de entrelazados del código real fuera del modelo, y un 0 tras el fix es una propiedad del modelo, no una prueba de que el fix real sea seguro en todo schedule.
 
 Resultados:
 

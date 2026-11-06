@@ -1,5 +1,9 @@
 # Limitations
 
+- **Exploration scope.** "Every interleaving" means every interleaving of
+  the finite model program (its listed atomic steps, bounds and choices),
+  not of the real system. A count of 0 is a property of the model only.
+
 - **Abstract states only.** There is one page, one mm and one VMA. The
   model leaves out page locks, the TLB, reference counts, the mapcount,
   KSM, swap, THP and hugetlb, as well as `FOLL_POPULATE` and `FOLL_MLOCK`.

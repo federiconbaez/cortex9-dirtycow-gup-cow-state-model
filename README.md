@@ -24,8 +24,10 @@ Two threads run against that state:
   follow → fault → follow → … → write;
 - **B:** k DONTNEED zaps.
 
-The explorer covers every interleaving. The invariant is: *A never
+The explorer covers every interleaving of the model's steps. The invariant is: *A never
 writes page P*. No verdict is hardcoded.
+
+**Scope of the exploration.** The explorer enumerates every interleaving of *this finite model program* (its listed atomic steps, bounds and choices). It says nothing about interleavings of the real kernel/libc/systemd code outside the model, and a zero count after the fix is a property of the model, not a proof that the real fix is safe in every schedule.
 
 ## Results (`results/`)
 
